@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>my project</title>
+	<link rel="stylesheet" href="src/css/index.css">
+	<link rel="stylesheet" href="src/css/lunbo.css">
+	<script src="http://apps.bdimg.com/libs/require.js/2.1.9/require.min.js"></script>
+	<script>
+	requirejs.config({
+		baseUrl: "src/js",
+　　　　paths: {
+　　　　　　"jquery": "https://code.jquery.com/jquery-3.2.1.min",
+
+　　　　}
+　　});
+	requirejs(['main']);
+	</script>
+	
+</head>
+<body>
+	<div class="ct">
+		<div class="head">
+			<h2>我的项目</h2>
+			<p>主要运用了JS的模块/构造函数/混合设计模式以及常用的懒加载和瀑布流布局</p>
+		</div>
+
+		<div class="main">
+			<ul class='proj'>
+				<li><a href="../LoadNews/jq_jsonp_wf_lazyout.html">新闻加载</a></li>
+				<li><a href="../musicPlayer/index.html">音乐播放器</a></li>
+				<li><a href="../ms-Page/ms-page.html">魔兽首页</a></li>
+				<li><a href="../Dialog/jq_dialog.html">弹框/tab组件</a></li>
+				<li><a href="../Weather/jq_weatherShow.html">天气查询</a></li>
+			</ul>
+			<div class="lunbo">
+				<ul class='imgLi clearfix'>
+					<li><a href="#"><img src="../imgs/1.jpg"/></a></li>
+					<li><a href="#"><img src="../imgs/5.jpg"/></a></li>
+					<li><a href="#"><img src="../imgs/7.jpg"/></a></li>
+					<li><a href="#"><img src="../imgs/11.jpg"/></a></li>
+				</ul>
+				
+				<a class="arrow next" href="#">></a>
+				<a class="arrow prev" href="#"><</a>
+
+				<ul class='bullet clearfix'>
+					<li class='active'></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			<div class='tips'>
+				<a href="https://github.com/Lingfighting/Lingfighting.github.io/tree/master/projects">源码链接</a>
+				<a href="#">使用说明</a>
+			</div>
+		</div>
+
+		<div class="foot">作者：<a href="#">李瑛</a></div>
+	</div>
+</body>
+</html>

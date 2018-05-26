@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="referrer" content="never" charset="UTF-8">
+	<title>music-Player</title>
+	<script src="http://apps.bdimg.com/libs/require.js/2.1.9/require.min.js"></script>
+	<link rel="stylesheet" href="./css/index.css">
+
+	</style>
+</head>
+<body>
+
+	<!-- <audio id="music" src="http://cloud.hunger-valley.com/music/玫瑰.mp3">你的浏览器不支持喔！</audio> -->
+	<div class="player">
+		<div class="title clearfix">
+			<!-- <span class="music-name"></span>
+			<span>-</span>
+			<span class="author"></span> -->
+			<p>明天，你好</p>
+		</div>
+		<div class="ct">
+			<div class="lyric">
+				<p></p>
+			</div>
+		</div>
+		<div class="progress-info clearfix">
+			<div class="bar">
+				<!-- <div class="total"></div> -->
+				<div class="now"></div>
+			</div>
+			<div class="time">
+				<span class="now">0:00</span>
+				<span>/</span>
+				<span class="total">0:00</span>
+			</div>
+		</div>
+
+		<div class="control">
+			<span class="prev icon">&#xe64d</span>
+	        <span class="play icon"></span>
+	        <span class="next icon">&#xe64c</span>
+		</div>
+	</div>
+
+	<script>
+		requirejs.config({
+			baseUrl: "./js",
+	　　　　paths: {
+	　　　　　　"jquery": "https://code.jquery.com/jquery-3.2.1.min",
+
+	　　　　}
+	　　});
+		requirejs(['main']);
+		// $(function(){
+		// 	$prev = $('.player .icon').eq(0);
+		// 	$play = $('.player .icon').eq(1);
+		// 	$next = $('.player .icon').eq(2);
+		// 	$nowBar = $('.player .bar .now');
+		// 	$nowTime = $('.player .time .now');
+		// 	$totalTime = $('.player .time .total');
+		// 	$author = $('.player .author');
+		// 	$musicName = ('.player .music-name');
+		// 	$ct = $('.player .ct');
+
+		// 	var index = 0;
+		// 	var music = 'http://cloud.hunger-valley.com/music/玫瑰.mp3';
+		// 	var audioObject = new Audio();
+		// 	// init(music);
+		// 	getData(manageData);
+		// 	function init(src){
+				
+		// 		audioObject.src = src;
+		// 		//获取信息
+		// 		// console.log(audioObject.duration);
+		// 		// var total = getTime(audioObject.duration);
+		// 		// $totalTime.text(total);
+
+		// 		//如下代码设置 每1秒左右执行一次
+		// 		audioObject.shouldUpdate = true;
+		// 		audioObject.ontimeupdate = function(){
+		// 			var _this = this;
+
+		// 			//获取总时间
+		// 			// console.log('kkkkkkkkk');
+		// 			console.log(audioObject.duration);
+		// 			var total = getTime(audioObject.duration);
+		// 			$totalTime.text(total);
+
+		// 		  	if(_this.shouldUpdate) {
+		// 			     //do something
+		// 			    updateProgress(audioObject.duration, audioObject.currentTime);
+		// 			    if (audioObject.ended){
+		// 			    	console.log('tttttttttttttttttttttt');
+		// 			    }
+		// 			    // console.log('update');
+		// 			     _this.shouldUpdate = false;
+		// 			    setTimeout(function(){
+		// 			      _this.shouldUpdate = true;
+		// 			    }, 1000);
+		// 		  	}
+		// 		}
+		// 	}
+			
+		// 	// console.log($play);
+		// 	$play.on('click', function(){
+
+		// 		if ($(this).hasClass('play'))
+		// 		{
+		// 			audioObject.play();	
+		// 		}else{
+		// 			audioObject.pause();
+		// 		}
+				
+		// 		$(this).toggleClass('play');
+		// 		$(this).toggleClass('pause');
+		// 	});
+
+		// 	$prev.on('click', function(){
+		// 		audioObject.pause();
+		// 		prevMusic();
+		// 		audioObject.play();
+		// 	})
+
+		// 	$next.on('click', function(){
+		// 		audioObject.pause();
+		// 		prevMusic();
+		// 		audioObject.play();
+		// 	})
+
+
+		// 	function manageData(data){
+		// 		console.log('manageData-----------');
+		// 		// var musics = data.musics;
+		// 		console.log(data);
+		// 		init(data);
+		// 		// $author.text(data);
+		// 		// $musicName.text()
+		// 		// console.log(newsData);
+		// 	}
+
+		// 	function getData(callback){
+		// 		// url里面
+		// 		$.ajax({
+		// 			url: 'http://api.jirengu.com/fm/getSong.php',
+		// 			type: 'GET',
+		// 			data: {
+		// 				channel: "public_tuijian_spring",
+		// 			}
+		// 		}).done(function(ret){
+		// 			console.log(ret);
+		// 			callback(ret.musics); 
+		// 			// if(ret && ret.status && ret.status.code === "0"){
+		// 			// 	console.log('get  data success----');
+		// 			// 	// callback(ret.data); 
+						
+		// 			// }else{
+		// 			// 	console.log('get error data');
+		// 			// }
+		// 		});		
+		// 	}
+
+		// 	function nextMusic(){
+		// 		index++;
+		// 		getData(manageData);
+		// 	}
+
+		// 	function prevMusic(){
+		// 		if (index <= 0){
+		// 			return;
+		// 		}
+		// 		index++;
+		// 		getData(manageData);
+		// 	}
+
+		// 	function updateProgress(total, now){
+		// 		// console.log('lllllllllllll');
+		// 		// console.log(audioObject.duration);
+		// 		var percent = (now/total)*100+'%';
+		// 		$nowTime.width(percent);
+
+		// 		var time = getTime(now);
+		// 		$nowTime.text(time);
+		// 	}
+
+		// 	function getTime(time){
+		// 		var minutes = parseInt(time/60)
+		// 		var seconds = parseInt(time%60)+''
+		// 		seconds = seconds.length == 2? seconds : '0'+ seconds;
+		// 		return minutes + ':' + seconds;
+		// 	}
+
+
+		// })
+	</script>
+</body>
+</html>

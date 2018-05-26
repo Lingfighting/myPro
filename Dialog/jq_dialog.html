@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弹框组件</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src='tabs.js'></script>
+	<link rel="stylesheet" href="./tabs.css">
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+
+	.clearfix:after{
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+	.wrap{
+		position: relative;
+		margin: 20px;
+	}
+
+	.wrap button{
+		margin-right: 10px;
+		padding: 5px 10px;
+	}
+
+	.mtk{
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, 0.4);
+		border: 1px solid #ccc;
+		display: none;
+	}
+
+	.hide{
+		display: none;
+	}
+
+	.show{
+		display: block;
+	}
+
+	.middle{
+		display: flex;
+  		align-items: center;
+  		justify-content: center;
+	}
+
+	.mtk .dialog{
+		width: 500px;
+		position: absolute;
+		
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: #fff;
+
+	}
+
+
+	@font-face {
+		font-family: 'icon-off';  /* project id 240960 */
+		src: url('https://at.alicdn.com/t/font_dv0ppfkqbmx6r.eot');
+		src: url('https://at.alicdn.com/t/font_dv0ppfkqbmx6r.eot?#iefix') format('embedded-opentype'),
+		url('https://at.alicdn.com/t/font_dv0ppfkqbmx6r.woff') format('woff'),
+		url('https://at.alicdn.com/t/font_dv0ppfkqbmx6r.ttf') format('truetype'),
+		url('https://at.alicdn.com/t/font_dv0ppfkqbmx6r.svg#icon-off') format('svg');
+	}
+
+	.mtk .header{
+		padding: 5px 10px;
+		border-bottom: 1px solid #999;
+		background-color: #72b890;
+		opacity: 0.7;
+		height: 40px;
+	}
+
+	.mtk .header h3{
+		float: left;
+		padding: 5px;
+	}
+
+	.mtk .header .icon-off:before{
+		font-family: icon-off;
+		content: "\e686";
+		font-size: 20px;
+		float: right;
+	}
+
+	.mtk .content{
+    	padding: 10px 30px;
+    	border-bottom: 1px solid #ccc;
+
+		height: 200px;
+		font-size: 20px;
+    	background-color: pink;
+    }
+
+    .mtk .content img{
+    	height: 180px;
+    }
+
+    .mtk .footer{
+		background-color: #72b890;
+	}
+
+	.mtk .footer a{
+		float: right;
+		padding: 10px;
+		text-decoration: none;
+		color: black;
+	}
+</style>
+<body>
+<div class="wrap">
+	<button class='btn1'>打开1</button>
+	<button class='btn2'>打开2</button>
+	<button class='btn3'>打开3</button>
+	<button class='btn4'>打开4</button>
+	<button class='btn5'>打开5</button>
+	<button class='btn-off cancel'>关闭</button>
+
+	<div class="mtk">
+		<div class="dialog">
+
+			<div class="header clearfix">
+				<h3></h3>
+				<span class="icon-off cancel"></span>
+			</div>
+
+			<div class="content">
+			
+			</div>
+
+			<div class="footer clearfix">
+				<a href="#" class='sure'>确定</a>
+				<a href="#" class='cancel'>取消</a>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+	<script>
+		
+	var btnDialog = (function(){
+
+		function Dialog(){
+			this.dialog;
+		}
+
+		Dialog.prototype = {
+			open: function($dialog, opts){
+					this.dialog = $dialog;
+					this.dialog.addClass('show');
+
+					if (opts.header){
+						this.dialog.find('.header').removeClass('hide');
+						this.dialog.find('.header h3').text(opts.header.h3);
+					}else{
+						// console.log(this.dialog.find('.header'));
+						this.dialog.find('.header').addClass('hide');
+					}
+
+					if (opts.content){
+						this.dialog.find('.content').removeClass('hide');
+						this.dialog.find('.content').html(opts.content);
+					}else{
+						this.dialog.find('.content').addClass('hide');
+					}
+
+				}
+		}
+
+		return new Dialog();
+	})();
+
+	$('.mtk').click(function(){
+		$(this).removeClass('show');
+	})
+
+	$('.mtk .dialog').click(function(e){
+		e.stopPropagation();
+	})
+
+	$('.cancel').click(function(){
+		$('.mtk').removeClass('show');
+	})
+
+	$('.sure').click(function(){
+		$('.mtk').removeClass('show');
+	})
+
+	$('.btn1').on('click', function(){
+		btnDialog.open($('.mtk'), {
+			content: 'hello liying',
+		});
+		$('.mtk .content').addClass('middle');
+	})
+
+	$('.btn2').on('click', function(){
+		btnDialog.open($('.mtk'), {
+			header: {
+				h3: '你好',
+			} ,
+			content: 'welcome to read this',
+		});
+		$('.mtk .content').addClass('middle');
+	})
+
+	$('.btn3').on('click', function(){
+		btnDialog.open($('.mtk'), {
+			header: {
+				h3: '电器',
+			} ,
+			content: '<ul>'+
+						'<li>冰箱</li>'+
+						'<li>电视机</li>'+
+						'<li>洗衣机</li>'+
+						'<li>摄像机</li>'+
+					  '</ul>'
+		});
+		$('.mtk .content').removeClass('middle');
+	})
+
+	$('.btn4').on('click', function(){
+		btnDialog.open($('.mtk'), {
+			header: {
+				h3: '你好',
+			} ,
+			content: '<img src="../imgs/4.jpg"/>',
+		});
+		$('.mtk .content').addClass('middle');
+	})
+
+
+	$('.btn5').on('click', function(){
+		btnDialog.open($('.mtk'), {
+			header: {
+				h3: '你好',
+			} ,
+			content: '<p>tabs组件</p>',
+		});
+		Tabs.creat($('.mtk .content'), 1);
+		$('.mtk .content').removeClass('middle');
+	})
+	</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+li{
+	list-style: none;
+}
+
+a{
+	text-decoration: none;
+}
+
+.clearfix:after{
+	content: '';
+	display: 'block';
+	clear: both;
+}
+.lunbo{
+	width: 500px;
+	height: 320px;
+	margin: 20px auto;
+	position: relative;
+	/*规定视框大小，超出父容器部分不显示*/
+	overflow: hidden;
+}
+
+.lunbo .imgLi{
+	position: absolute;/*为了使用left和right实现图片的偏移*/
+	/*width: 1200px;*/
+	z-index: 0;
+}
+
+.imgLi li{
+	float: left;
+/*	width: 300px;
+	height: 220px;
+	border: 1px solid red;*/
+}
+
+.imgLi li img{
+	width: 500px;
+	height: 320px;
+}
+
+.lunbo .arrow{
+	display: inline-block;
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	color: #fff;
+	border: 1px solid #fff;
+	/*箭头在视框垂直居中*/
+	top: 50%;
+	margin-top: -16px; 
+	/*箭头在图片上面*/
+	z-index: 1;			
+	/*箭头在圆圈内居中*/
+	text-align: center;
+	line-height: 32px;
+	opacity: 0.5;
+}
+
+.lunbo .arrow:hover{
+	/*background-color: #666;*/
+	opacity: 0.8;
+}
+
+.lunbo .prev{
+	left: 10px;
+}
+
+.lunbo .next{
+	right: 10px;
+}
+
+.lunbo .bullet{
+	position: absolute;
+	z-index: 1;
+	/*width能继承*/
+	/*width: 200px;*/
+	/*铺满一整行，不需要再设置水平居中。如果不设置width，因为设置了绝对定位，大小会收缩，宽度变为内容的宽度*/
+	width: 100%;
+	bottom: 10px;
+	/*border: 1px solid red;*/
+	
+	/*left: 50%;*/
+	/*margin-left: -100px;*/
+
+	text-align: center;
+	/*子元素为inline-block，使得ul的高度大于li的高度，用font-size: 0;去掉多余高度和li之间的缝隙*/
+	font-size: 0;
+}
+.lunbo .bullet li{
+	width: 30px;
+	height: 6px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+
+	display: inline-block;
+
+	/*不能与父容器的text-align: center;一起使用。当增加轮播图片或则改变宽度时，要修改父容器的宽度*/
+	/*float: left;*/
+
+	margin-left: 5px;
+
+	cursor: pointer;
+}
+
+.lunbo .bullet .active{
+	background-color: #ccc;
+}

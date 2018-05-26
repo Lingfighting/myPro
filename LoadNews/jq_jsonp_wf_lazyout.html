@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新闻浏览</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="lazyload.js"></script>
+	<script src="waterfull.js"></script>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		li{
+			list-style: none;
+		}
+
+		a{
+			text-decoration: none;
+		}
+
+		.wf-ct{
+			/*不设置宽度，则宽度为100%，浏览器窗口大小。margin: 0 auto;在设置具体宽度时有效*/
+			margin: 0 auto;
+			border: 1px solid #ccc;
+			width: 1000px;
+		}
+
+		.pic-ct{
+			position: relative;
+			/*这里使用margin: 0 auto;布局会乱*/
+			/*margin: 0 auto;*/
+
+			/*margin: 0 20px;*/
+			/*如果在这里设置宽度，.wf-ct不设置宽度，窗口大小变化时，可能出现此窗口的宽度大于.wf-ct的宽度*/
+
+			/*不设置宽度，元素自动撑满父容器，元素的内容加边框加外边距之和为父容器内容的宽度*/
+			/*width: 1000px;*/
+			/*宽度设置为100%,元素内容的宽度和父容器内容的宽度一样,*/
+			/*width: 100%;*/
+
+			/*border: 1px solid green;*/
+		}
+
+		.pic-ct .item{
+			position: absolute;
+			border: 1px solid #ccc;
+
+			width: 300px;
+/*			margin-top: 10px;
+			margin-left: 10px;*/
+			margin: 10px;
+			transition: all 1s;
+		}
+
+		.pic-ct .item h4{
+			font-size: 15px;
+			line-height: 1.8;
+			margin: 0 12px;
+			border-bottom: 1px solid #ccc;
+		}
+		
+		.pic-ct .item p{
+			font-size: 12px;
+			line-height: 1.8;
+			margin: 0 10px;
+	  		color: #777371;
+		}
+
+		.pic-ct .item img{
+			margin: 10px;
+			width: 280px;
+		}
+
+		.pic-ct .hide{
+			display: none;
+		}
+		.wf-ct .load{
+			visibility: hidden;
+			height: 30px;
+			border: 1px solid red;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="wf-ct">
+		<ul class='pic-ct'>
+<!-- 			<li class='item'>
+				<a href="#">
+					<img src="http://cdn.jirengu.com/book.jirengu.com/img/6.jpg" alt="">
+				</a>
+				<h4>你好</h4>
+				<p>将应用逻辑和事件处理分开</p>
+			</li > -->
+			<!-- 用来计算li的宽度 -->
+			<li class='item hide'></li>
+		</ul>
+		<div class="load">看不见，当出现在浏览器窗口，说明已经滚动到底部</div>
+	</div>
+
+
+	<script>
+		//1.获取数据
+		//2.将数据变为DOM，通过瀑布流的方式放在页面上
+		//3.滚动到底部，===》1
+		var curPage = 0;
+		var perPageCount = 9;
+		var lock;
+
+		getData(manageData);
+
+		waterfull_layout.init($('.pic-ct'), $('.hide'));
+
+		$(window).on('scroll', function(){
+			//滚动过程中，不断复原定时器，等到滚动结束，才加载图片(可防止出现重复加载的情况)
+			if (lock){
+				clearTimeout(lock);
+			}
+
+			lock = setTimeout(function(){
+				var $load = $('.load');
+				var isTrue = lazyLoad.checkShow($load);
+
+				if (isTrue){
+					getData(manageData);
+				}
+			}, 300)
+
+			
+		})
+
+		$(window).resize(function(){
+			start();
+		})
+
+		function start(){
+			console.log($('.pic-ct').outerWidth(true));
+			console.log($('.wf-ct').outerWidth(true));
+			waterfull_layout.init($('.pic-ct'), $('.item'));
+			$('.item').each(function(){
+				waterfull_layout.waterfull($(this));
+			})
+		}
+
+		function manageData(newsData){
+			// console.log('manageData-----------');
+
+			// console.log(newsData);
+			//一条数据一条 数据的处理
+			$.each(newsData, function(index, news){
+				var $node = creatNode(news);
+				//事件的简写方式
+				$node.find('img').load(function(){
+					$('.pic-ct').append($node);
+					waterfull_layout.waterfull($node);
+				})
+			})
+		}
+		// function creatNode(data){
+		// 	console.log(data.length);
+		// 	var newLength = 0;
+		// 	for (var i = 0; i < data.length; i++){
+		// 		$item.find('img').attr('src', data[i].img_url);
+		// 		$item.find('h4').text(data[i].name);
+		// 		$item.find('p').text(data[i].short_intro);
+		// 		if (i >= $item.length){
+		// 			var $itemClone = $item.clone();
+		// 			$itemClone.find('img').attr('src', data[i].img_url);
+		// 			$itemClone.find('h4').text(data[i].name);
+		// 			$itemClone.find('p').text(data[i].short_intro);
+		// 			$itemClone.appendTo($item.parent());
+		// 		}
+		// 	}
+		// }
+
+		function creatNode(item){
+			var tpl = ''
+				tpl += '<li class="item">';
+				tpl += ' <a href="'+ item.url +'" class="link"><img src="' + item.img_url + '" alt=""></a>';
+				tpl += ' <h4 class="header">'+ item.name +'</h4>';
+				tpl += '<p class="desp">'+item.short_intro+'</p>';
+				tpl += '</li>';
+			
+			return $(tpl);
+		}
+
+		function getData(callback){
+			$.ajax({
+				url: 'http://platform.sina.com.cn/slide/album_tech',
+				dataType: 'jsonp',   //这里使用了新浪新闻的 jsonp 接口，大家可以直接看数据， 如： http://platform.sina.com.cn/slide/album_tech?jsoncallback=func&app_key=1271687855&num=3&page=4
+				jsonp:"jsoncallback",
+				jsoncallback: "getData",
+				data: {
+					app_key: '1271687855',
+					num: perPageCount,
+					page: curPage
+				}
+			}).done(function(ret){
+				if(ret && ret.status && ret.status.code === "0"){
+					// console.log('get  data success----');
+					callback(ret.data);   //如果数据没问题，那么生成节点并摆放好位置
+					curPage++;
+				}else{
+					console.log('get error data');
+				}
+			});
+		}
+
+
+	</script>
+</body>
+</html>

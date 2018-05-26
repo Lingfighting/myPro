@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>轮播</title>
+	<script src="http://apps.bdimg.com/libs/require.js/2.1.9/require.min.js"></script>
+	<script>
+	//  data-main='./lunbo.js' 
+	requirejs.config({
+		baseUrl: "./",
+　　　　paths: {
+　　　　　　"jquery": "https://code.jquery.com/jquery-3.2.1.min",
+
+　　　　}
+　　});
+	requirejs(['main']);
+
+	</script>
+	<link rel="stylesheet" href="./lunbo.css">
+</head>
+<body>
+	<div class="ct">
+		<ul class='imgLi clearfix'>
+			<li><a href="#"><img src="../projs/imgs/1.jpg"/></a></li>
+			<li><a href="#"><img src="../projs/imgs/5.jpg" /></a></li>
+			<li><a href="#"><img src="../projs/imgs/7.jpg" /></a></li>
+			<li><a href="#"><img src="../projs/imgs/11.jpg" /></a></li>
+		</ul>
+		
+		<a class="arrow next" href="#">></a>
+		<a class="arrow prev" href="#"><</a>
+
+		<ul class='bullet clearfix'>
+			<li class='active'></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	
+</body>
+
+</html>
